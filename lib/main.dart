@@ -17,6 +17,7 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
   String petName = "Buster";
   int happinessLevel = 50;
   int hungerLevel = 50;
+  final TextEditingController _controller = TextEditingController();
 
   void _playWithPet() {
     setState(() {
@@ -70,29 +71,47 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
     }
   }
 
+  void _setName() {
+    setState(() {
+      petName = _controller.text;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Digital Pet')),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
               _getMoodText(),
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             ColorFiltered(
               colorFilter: ColorFilter.mode(
                 _moodColor(happinessLevel),
                 BlendMode.modulate,
               ),
-              child: Image.asset('assets/pet.png', height: 400),
+              child: Image.asset('assets/pet.png', height: 250),
             ),
             SizedBox(height: 8.0),
+            SizedBox(
+              width: 500,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: TextField(controller: _controller, maxLength: 50),
+                  ),
+                  ElevatedButton(
+                    onPressed: (_setName),
+                    child: Text("Name Your Pet 🐶"),
+                  ),
+                ],
+              ),
+            ),
             Text('Name: $petName', style: TextStyle(fontSize: 16.0)),
             SizedBox(height: 8.0),
             Text(
