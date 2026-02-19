@@ -76,6 +76,17 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
     });
   }
 
+  void _rest() {
+    setState(() {
+      energyLevel += 20;
+      if (energyLevel > 100) {
+        energyLevel = 100;
+        return;
+      }
+      hungerLevel += 5;
+    });
+  }
+
   void _updateHappiness() {
     if (hungerLevel < 30) {
       happinessLevel -= 20;
@@ -227,6 +238,7 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
                     onPressed: _feedPet,
                     child: Text('Feed Your Pet'),
                   ),
+                  ElevatedButton(onPressed: _rest, child: Text('Rest')),
                 ],
               ),
             ),
