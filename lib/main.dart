@@ -19,6 +19,7 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
   final TextEditingController _controller = TextEditingController();
   Timer? _winTimer;
   int _secondsAboveEighty = 0;
+  int energyLevel = 100;
 
   void _checkWinLoss() {
     setState(() {
@@ -50,6 +51,7 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
   void _playWithPet() {
     setState(() {
       happinessLevel += 10;
+      energyLevel -= 5;
       if (happinessLevel > 100) {
         happinessLevel = 100;
       }
@@ -60,6 +62,7 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
   void _feedPet() {
     setState(() {
       hungerLevel -= 10;
+      energyLevel += 5;
       if (hungerLevel < 0) {
         hungerLevel = 0;
       }
@@ -192,6 +195,16 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
               style: TextStyle(fontSize: 16.0),
             ),
             SizedBox(height: 32.0),
+            Text('Energy Level: $energyLevel%', style: TextStyle(fontSize: 16)),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 8),
+              child: LinearProgressIndicator(
+                value: energyLevel / 100,
+                backgroundColor: Colors.grey,
+                valueColor: AlwaysStoppedAnimation<Color>(const Color.fromARGB(255, 47, 205, 33)),
+                minHeight: 10,
+              ),
+            ),
             ElevatedButton(
               onPressed: _playWithPet,
               child: Text('Play with Your Pet'),
