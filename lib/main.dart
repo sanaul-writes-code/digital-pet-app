@@ -1,6 +1,4 @@
-/**
- * Student Name: SANAUL HAQUE
- */
+// Student Name: SANAUL HAQUE
 
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -30,13 +28,23 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
         _secondsAboveEighty = 0;
       }
       if (_secondsAboveEighty >= 180) {
-        print("You win!");
         _winTimer?.cancel();
+        _showGameOverAlert("You win!");
       } else if (hungerLevel == 100 && happinessLevel <= 10) {
-        print("You lose!");
         _winTimer?.cancel();
+        _showGameOverAlert("Game Over!");
       }
     });
+  }
+
+  void _showGameOverAlert(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: Duration(seconds: 5),
+        backgroundColor: Colors.orangeAccent,
+      ),
+    );
   }
 
   void _playWithPet() {
