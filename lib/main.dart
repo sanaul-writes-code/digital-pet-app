@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 void main() {
-  runApp(MaterialApp(home: DigitalPetApp()));
+  runApp(MaterialApp(home: DigitalPetApp(), debugShowCheckedModeBanner: false));
 }
 
 class DigitalPetApp extends StatefulWidget {
@@ -19,10 +19,32 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
   int happinessLevel = 50;
   int hungerLevel = 50;
   final TextEditingController _controller = TextEditingController();
+  Timer? _winTimer;
+  int _secondsAboveEighty = 0;
+
+  void _checkWinLoss() {
+    setState(() {
+      if (happinessLevel > 80) {
+        _secondsAboveEighty += 1;
+      } else {
+        _secondsAboveEighty = 0;
+      }
+      if (_secondsAboveEighty >= 180) {
+        print("You win!");
+        _winTimer?.cancel();
+      } else if (hungerLevel == 100 && happinessLevel <= 10) {
+        print("You lose!");
+        _winTimer?.cancel();
+      }
+    });
+  }
 
   void _playWithPet() {
     setState(() {
       happinessLevel += 10;
+      if (happinessLevel > 100) {
+        happinessLevel = 100;
+      }
       _updateHunger();
     });
   }
@@ -30,6 +52,9 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
   void _feedPet() {
     setState(() {
       hungerLevel -= 10;
+      if (hungerLevel < 0) {
+        hungerLevel = 0;
+      }
       _updateHappiness();
     });
   }
@@ -40,6 +65,12 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
     } else {
       happinessLevel += 10;
     }
+    if (happinessLevel > 100) {
+      happinessLevel = 100;
+    }
+    if (happinessLevel < 0) {
+      happinessLevel = 0;
+    }
   }
 
   void _updateHunger() {
@@ -48,6 +79,9 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
       if (hungerLevel > 100) {
         hungerLevel = 100;
         happinessLevel -= 20;
+      }
+      if (happinessLevel < 0) {
+        happinessLevel = 0;
       }
     });
   }
@@ -85,12 +119,28 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
     Timer.periodic(Duration(seconds: 30), (timer) {
       _updateHunger();
     });
+    _winTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+      _checkWinLoss();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Digital Pet')),
+      appBar: AppBar(
+        title: Text('Digital Pet'),
+        actions: [
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: Text(
+                '${180 - _secondsAboveEighty}s Left To Win The Game',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -148,6 +198,7 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
 
   @override
   void dispose() {
+    _winTimer?.cancel();
     _controller.dispose();
     super.dispose();
   }
