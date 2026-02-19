@@ -52,6 +52,9 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
     setState(() {
       happinessLevel += 10;
       energyLevel -= 5;
+      if (energyLevel < 0) {
+        energyLevel = 0;
+      }
       if (happinessLevel > 100) {
         happinessLevel = 100;
       }
@@ -63,6 +66,9 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
     setState(() {
       hungerLevel -= 10;
       energyLevel += 5;
+      if (energyLevel > 100) {
+        energyLevel = 100;
+      }
       if (hungerLevel < 0) {
         hungerLevel = 0;
       }
@@ -184,33 +190,47 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
               ),
             ),
             Text('Name: $petName', style: TextStyle(fontSize: 16.0)),
-            SizedBox(height: 8.0),
+            SizedBox(height: 2.0),
             Text(
               'Happiness Level: $happinessLevel',
               style: TextStyle(fontSize: 16.0),
             ),
-            SizedBox(height: 8.0),
+            SizedBox(height: 2.0),
             Text(
               'Hunger Level: $hungerLevel',
               style: TextStyle(fontSize: 16.0),
             ),
-            SizedBox(height: 32.0),
+            SizedBox(height: 2.0),
             Text('Energy Level: $energyLevel%', style: TextStyle(fontSize: 16)),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 8),
               child: LinearProgressIndicator(
                 value: energyLevel / 100,
                 backgroundColor: Colors.grey,
-                valueColor: AlwaysStoppedAnimation<Color>(const Color.fromARGB(255, 47, 205, 33)),
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  const Color.fromARGB(255, 47, 205, 33),
+                ),
                 minHeight: 10,
               ),
             ),
-            ElevatedButton(
-              onPressed: _playWithPet,
-              child: Text('Play with Your Pet'),
+            SizedBox(
+              width: 400,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ElevatedButton(
+                    onPressed: _playWithPet,
+                    child: Text('Play with Your Pet'),
+                  ),
+                  // SizedBox(height: 8.0),
+                  ElevatedButton(
+                    onPressed: _feedPet,
+                    child: Text('Feed Your Pet'),
+                  ),
+                ],
+              ),
             ),
-            SizedBox(height: 8.0),
-            ElevatedButton(onPressed: _feedPet, child: Text('Feed Your Pet')),
+            SizedBox(height: 20),
           ],
         ),
       ),
