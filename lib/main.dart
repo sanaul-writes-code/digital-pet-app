@@ -3,6 +3,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 void main() {
   runApp(MaterialApp(home: DigitalPetApp()));
@@ -78,6 +79,15 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    Timer.periodic(Duration(seconds: 30), (timer) {
+      _updateHunger();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Digital Pet')),
@@ -134,5 +144,11 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }
