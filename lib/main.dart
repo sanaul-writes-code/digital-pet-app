@@ -1,3 +1,7 @@
+/**
+ * Student Name: SANAUL HAQUE
+ */
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,7 +14,7 @@ class DigitalPetApp extends StatefulWidget {
 }
 
 class _DigitalPetAppState extends State<DigitalPetApp> {
-  String petName = "Your Pet";
+  String petName = "Buster";
   int happinessLevel = 50;
   int hungerLevel = 50;
 
@@ -56,6 +60,16 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
     }
   }
 
+  String _getMoodText() {
+    if (happinessLevel > 70) {
+      return "Happy 😊";
+    } else if (happinessLevel >= 30) {
+      return "Neutral 😑";
+    } else {
+      return "Unhappy 😡";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,6 +78,13 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Text(
+              _getMoodText(),
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             ColorFiltered(
               colorFilter: ColorFilter.mode(
                 _moodColor(happinessLevel),
@@ -71,24 +92,24 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
               ),
               child: Image.asset('assets/pet.png', height: 400),
             ),
-            SizedBox(height: 16.0),
-            Text('Name: $petName', style: TextStyle(fontSize: 20.0)),
-            SizedBox(height: 16.0),
+            SizedBox(height: 8.0),
+            Text('Name: $petName', style: TextStyle(fontSize: 16.0)),
+            SizedBox(height: 8.0),
             Text(
               'Happiness Level: $happinessLevel',
-              style: TextStyle(fontSize: 20.0),
+              style: TextStyle(fontSize: 16.0),
             ),
-            SizedBox(height: 16.0),
+            SizedBox(height: 8.0),
             Text(
               'Hunger Level: $hungerLevel',
-              style: TextStyle(fontSize: 20.0),
+              style: TextStyle(fontSize: 16.0),
             ),
             SizedBox(height: 32.0),
             ElevatedButton(
               onPressed: _playWithPet,
               child: Text('Play with Your Pet'),
             ),
-            SizedBox(height: 16.0),
+            SizedBox(height: 8.0),
             ElevatedButton(onPressed: _feedPet, child: Text('Feed Your Pet')),
           ],
         ),
