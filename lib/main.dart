@@ -186,12 +186,15 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
             ),
             SizedBox(height: 8.0),
             SizedBox(
-              width: 500,
+              width: 300,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Expanded(
                     child: TextField(controller: _controller, maxLength: 50),
+                  ),
+                  SizedBox(
+                    width: 10,
                   ),
                   ElevatedButton(
                     onPressed: (_setName),
